@@ -1,0 +1,65 @@
+/* Apply basic styles to the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* Set table layout to auto */
+}
+
+/* Style the table header */
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: top; /* Align header text to the top */
+}
+
+/* Style the table rows */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect on table rows */
+tr:hover {
+  background-color: #f2f2f2;
+}
+
+/* Style the table cells */
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: top; /* Align cell content to the top */
+}
+
+/* Apply basic styles to paragraphs */
+p {
+  margin: 0; /* Remove default margins */
+  padding: 8px; /* Add padding for spacing */
+}
+
+/* Style paragraphs inside table cells */
+td p {
+  margin: 0; /* Remove default margins */
+}
+
+/* Style paragraphs inside table headers */
+th p {
+  margin: 0; /* Remove default margins */
+}
+/* Apply basic styles to buttons */
+button {
+  padding: 8px 16px; /* Add padding for spacing */
+  border: none; /* Remove default border */
+  background-color: #f2f2f2; /* Match background color to table header */
+  color: #333; /* Match text color to table header text */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for buttons */
+button:hover {
+  background-color: #ddd; /* Lighten background color on hover */
+}
+
