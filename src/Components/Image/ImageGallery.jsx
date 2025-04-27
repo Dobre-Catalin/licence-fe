@@ -4,6 +4,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import segmentation from "../../assets/Segmentation.png"
+import Box from "@mui/material/Box";
 
 const PLACEHOLDER_IMAGE = segmentation;
 
@@ -21,7 +22,7 @@ export default function StandardImageList() {
                     setImages(data);
                 } else {
                     // No images returned, show placeholders
-                    const placeholders = Array.from({ length: 10 }).map((_, i) => ({
+                    const placeholders = Array.from({ length: 15 }).map((_, i) => ({
                         img: PLACEHOLDER_IMAGE,
                         title: `Placeholder ${i + 1}`,
                     }));
@@ -29,7 +30,7 @@ export default function StandardImageList() {
                 }
             } catch (error) {
                 console.error('Fetch failed, using placeholders');
-                const placeholders = Array.from({ length: 10 }).map((_, i) => ({
+                const placeholders = Array.from({ length: 15 }).map((_, i) => ({
                     img: PLACEHOLDER_IMAGE,
                     title: `Placeholder ${i + 1}`,
                 }));
@@ -51,16 +52,18 @@ export default function StandardImageList() {
     }
 
     return (
-        <ImageList sx={{ width: 500, height: 'auto' }} cols={3} rowHeight={164}>
-            {images.map((item, index) => (
-                <ImageListItem key={`${item.img}-${index}`}>
-                    <img
-                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                        alt={item.title}
-                        loading="lazy"
-                    />
-                </ImageListItem>
-            ))}
-        </ImageList>
+        <Box sx={{ p: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <ImageList sx={{ width: 'auto', height: 'auto' }} cols={3} rowHeight={164}>
+                {images.map((item, index) => (
+                    <ImageListItem key={`${item.img}-${index}`}>
+                        <img
+                            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                            alt={item.title}
+                            loading="lazy"
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList>
+        </Box>
     );
 }

@@ -23,7 +23,7 @@ export default function Test() {
         },
         withCredentials: true
     })
-    const { questionIds, currentIndex, nextQuestion, previousQuestion } = useTestContext();
+    const { questionIds, currentIndex, nextQuestion, previousQuestion, answers, addAnswer } = useTestContext();
     const [currentImage, setCurrentImage] = useState('');
     const [loading, setLoading] = useState(false);
     const [openPopup, setOpenPopup] = useState(false);
@@ -62,9 +62,13 @@ export default function Test() {
 
 
     const handleAnswerClick = (answer) => {
-        setPopupMessage(`You selected answer: ${answer}`);
-        setOpenPopup(true);
+        const currentQuestionId = questionIds[currentIndex];
+
+        if (!answers[currentQuestionId]?.includes(answer)) {
+            addAnswer(currentQuestionId, answer);
+        }
     };
+
 
     const handleNext = () => {
         nextQuestion();

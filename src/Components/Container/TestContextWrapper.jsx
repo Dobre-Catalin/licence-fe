@@ -1,8 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from "axios";
 
 const TestContext = createContext();
 
 export const TestProvider = ({ children }) => {
+    const authAxios = axios.create({
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        },
+        withCredentials: true
+    })
+
     const [questionIds, setQuestionIds] = useState([]);
     const [answers, setAnswers] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,6 +78,11 @@ export const TestProvider = ({ children }) => {
 
     const submitTest = () => {
         console.log('Submitting test...', { answers });
+        authAxios.post('http://localhost:8080/api/test/submit', {
+            timePerQuestion: timeLimit,
+            responses: answers,
+            questionIds: questionIds
+        });
         resetTest();
     };
 
