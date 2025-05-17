@@ -32,7 +32,7 @@ export default function UserApprovalTable() {
     }, []);
 
     const fetchUsers = () => {
-        authAxios.get('http://localhost:8080/api/authentication/users')
+        authAxios.get('http://localhost:8080/api/users/getAll')
             .then(response => {
                 setUsers(response.data || []);
             })
@@ -43,7 +43,7 @@ export default function UserApprovalTable() {
     };
 
     const handleDetails = (user) => {
-        navigate(`/user-details/${user.username}`, { state: { user } });
+        navigate(`/user/${user.id}`);
     };
 
     const handleApprove = (user) => {

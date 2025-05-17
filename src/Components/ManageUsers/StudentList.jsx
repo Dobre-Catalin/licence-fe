@@ -4,6 +4,7 @@ import {
     TextField, Button
 } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
     { id: 'username', label: 'Username', minWidth: 170 },
@@ -16,6 +17,8 @@ export default function StudentList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const navigate = useNavigate();
 
     const authAxios = axios.create({
         headers: {
@@ -31,7 +34,7 @@ export default function StudentList() {
 
     const fetchStudents = () => {
         const teacherId = localStorage.getItem('username');
-        authAxios.get(`http://localhost:8080/api/authentication/studentsByTeacher/${teacherId}`)
+        authAxios.get(`http://localhost:8080/api/users/studentsByTeacher/${teacherId}`)
             .then(response => {
                 setStudents(response.data || []);
             })
@@ -39,13 +42,12 @@ export default function StudentList() {
                 console.error("Error fetching students:", error);
                 setStudents([]);
             });
-        console.log(students);
     };
 
     const handleSearch = () => {
         if (!searchTerm.trim()) return;
 
-        authAxios.get(`http://localhost:8080/api/authentication/users/STUDENT/${searchTerm}`)
+        authAxios.get(`http://localhost:8080/api/users/STUDENT/${searchTerm}`)
             .then(response => {
                 setSearchResults(response.data || []);
             })
@@ -55,13 +57,10 @@ export default function StudentList() {
             });
     };
 
-
     const handleAddClick = (student) => {
-        alert(`Add clicked for ${student.username}`);
-        // post to localhost:8080/api/authentication/addStudent/{studentId}/to/{teacherId}
         const teacherId = localStorage.getItem('username');
         const studentId = student.username;
-        authAxios.post(`http://localhost:8080/api/authentication/addStudent/${studentId}/to/${teacherId}`)
+        authAxios.post(`http://localhost:8080/api/users/addStudent/${studentId}/to/${teacherId}`)
             .then(response => {
                 if (response.status === 200) {
                     alert('Student added successfully');
@@ -72,11 +71,9 @@ export default function StudentList() {
                 console.error("Error adding student:", error);
                 alert('Failed to add student');
             });
-        //force refresh of the student list
-        fetchStudents();
     };
 
-    const renderTable = (data, showActions = false) => (
+    const renderTable = (data, showActions = false, allowDetails = false) => (
         <Paper sx={{ width: '100%', overflow: 'hidden', mb: 4 }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="student table">
@@ -100,7 +97,23 @@ export default function StudentList() {
                                 ))}
                                 {showActions && (
                                     <TableCell>
-                                        <Button variant="contained" size="small" onClick={() => handleAddClick(student)}>Add</Button>
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            onClick={() => handleAddClick(student)}
+                                            sx={{ mr: allowDetails ? 1 : 0 }}
+                                        >
+                                            Add
+                                        </Button>
+                                        {allowDetails && (
+                                            <Button
+                                                variant="outlined"
+                                                size="small"
+                                                onClick={() => navigate(`/student/${student.id}`)}
+                                            >
+                                                Details
+                                            </Button>
+                                        )}
                                     </TableCell>
                                 )}
                             </TableRow>
@@ -126,7 +139,7 @@ export default function StudentList() {
     return (
         <div>
             <h1>Student List</h1>
-            {renderTable(students)}
+            {renderTable(students, true, true)}
 
             <div style={{ marginTop: 32 }}>
                 <h2>Search Students by Username</h2>
@@ -144,7 +157,7 @@ export default function StudentList() {
             {searchResults.length > 0 && (
                 <div style={{ marginTop: 32 }}>
                     <h2>Search Results</h2>
-                    {renderTable(searchResults, true)}
+                    {renderTable(searchResults, true, false)}
                 </div>
             )}
         </div>

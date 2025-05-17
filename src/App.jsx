@@ -23,6 +23,9 @@ import CompareImages from "./Components/Image/CompareImages.jsx";
 import TakeTest from "./Components/Test/TakeTest.jsx";
 import {TestProvider} from "./Components/Container/TestContextWrapper.jsx";
 import Test from "./Components/Test/Test.jsx";
+import TestHistory from "./Components/Test/TestHistory.jsx";
+import TestDetails from "./Components/ManageUsers/TestDetails.jsx";
+import StudentDetails from "./Components/ManageUsers/StudentDetails.jsx";
 
 const App = () => {
     return (
@@ -53,6 +56,11 @@ const App = () => {
                                         <Test />
                                     </TestProvider>
                                 } />
+                                <Route path="/testhistory" element={<TestHistory/>} />
+                                <Route path="/studentDetails/:id" element={<StudentDetails />} />
+                                <Route path="/testDetails/:id" element={<TestDetails />} />
+                                <Route path="/student/:id" element={<StudentDetails />} />
+                                <Route path="/user/:id" element={<StudentDetails />} />
                             </Routes>
                         </Container>
                     </BrowserRouter>
